@@ -1,0 +1,13 @@
+{
+  "$schema": "https://pi.dev/schemas/models.schema.json",
+  "providers": {
+    "ollama": {
+      "baseUrl": "https://aqueduct.cc.univie.ac.at/v1",
+      "api": "openai-completions",
+      "apiKey": "$AQUEDUCT_API_KEY",
+      "models": [
+        { "id": "Qwen3.8-Flash-Next" }
+      ]
+    }
+  }
+}
