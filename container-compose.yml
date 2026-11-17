@@ -1,0 +1,10 @@
+services:
+    app:
+        container_name: aqueduct-app
+        build: .
+        volumes:
+            - type: bind
+              source: ./dev
+              target: /root/dev
+        environment:
+          AQUEDUCT_API_KEY: ${AQUEDUCT_API_KEY}
