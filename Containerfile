@@ -4,19 +4,21 @@ RUN    apt-get update \
     && apt-get install -y --no-install-recommends \
        vim less tree ack \
        git curl ca-certificates \
-       libatomic1 \
     && rm -rf /var/lib/apt/lists/*
 
 USER root
 WORKDIR /root/dev
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.41.0/install.sh | bash
+RUN curl -fsSL https://opencode.ai/v2/install | bash
+ENV PATH=/root/.opencode/bin:$PATH
 
-RUN \. "$HOME/.nvm/nvm.sh" \
-    && nvm install 26 \
-    && npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+RUN mkdir -p /root/.config/opencode
+COPY /config/opencode/opencode.json /root/.config/opencode/opencode.json
 
-COPY config/pi/models.json /root/.pi/agent/models.json
+RUN mkdir /root/.config/opencode/plugins
+COPY qwen-block-proxy-artifacts/plugin/block-proxy-artifacts.ts /root/.config/opencode/plugins/
+
+EXPOSE 49374
 
 COPY entrypoint.sh /root/
 CMD ["bash", "/root/entrypoint.sh"]
